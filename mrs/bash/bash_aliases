@@ -1,0 +1,40 @@
+
+alias grep='grep --color'                     # show differences in colour
+# Olive (normal adhoc)
+alias olive='psql -h ec2-54-235-67-120.compute-1.amazonaws.com -d deubc3pju2ki49 -U u1ad4iiufmth5d -p 5432' 
+# Jade (dataclips - will die someday)
+alias jade='psql -h ec2-54-197-238-19.compute-1.amazonaws.com -d deubc3pju2ki49 -U u1ad4iiufmth5d -p 5432'
+# Teal (looker - use sparingly)
+alias teal='psql -h ec2-174-129-240-69.compute-1.amazonaws.com -d deubc3pju2ki49 -U u1ad4iiufmth5d -p 5432'
+# Cyan (old fraudbot, now Campaign Bot)
+alias cyan='psql -h ec2-54-163-227-17.compute-1.amazonaws.com -d deubc3pju2ki49 -U u1ad4iiufmth5d -p 5432'
+# Green (new olive)
+alias green='psql -h ec2-54-204-26-156.compute-1.amazonaws.com -d deubc3pju2ki49 -U ub5gkfteh7rc6t -p 5432'
+# Crimson (new campaign bot)
+alias crimson='psql -h ec2-107-20-149-241.compute-1.amazonaws.com -d deubc3pju2ki49 -U ub5gkfteh7rc6t -p 5432'
+# Blue
+alias blue='psql -h ec2-107-22-240-0.compute-1.amazonaws.com -d deubc3pju2ki49 -U u65psia0q3i5e6 -p 5432'
+# Pink
+alias pink='psql -h ec2-52-86-78-163.compute-1.amazonaws.com -d d5nco78ssssbar -U u5g06p42jff2e -p 5432'
+# Phones
+alias phones='psql -h reports.pangeare.com -d asteriskcdr -U abeck -p 5432'
+alias dropbox='cd /cygdrive/c/Users/mroses43/Dropbox\ \(AvantCredit.com\)' 
+alias downloads='cd /cygdrive/c/Users/mroses43/Downloads'
+alias db_queries='cd /cygdrive/c/Users/mroses43/Dropbox\ \(AvantCredit.com\)/Avant-shared/Operations\ -\ US/mrs/queries'
+alias py='cd /cygdrive/c/Users/mroses43/Dropbox\ \(AvantCredit.com\)/Avant-shared/Operations\ -\ US/mrs/python'
+alias ls='ls -hFG'                 # classify files in colour
+alias db='~/bin/dropbox.py'
+alias pmt='cd /Users/mroses43/Dropbox\ \(AvantCredit.com\)/Avant-shared/Operations\ \-\ US/Dept\ Collections/'
+alias qkill="kill -9 $(ps aux | grep '[p]sql' | awk '{print $1}')" # kills all running processes
+alias mobile='cd /cygdrive/c/Users/mroses43/Dropbox\ \(AvantCredit.com\)/Avant-shared/Operations\ -\ US/Dept\ Collections/Cisco/campaigns/mobile'
+# get to server
+alias dok='ssh mroses@dok'
+
+alias bow='ssh mroses43@bowie'
+# UK
+alias ukdb='psql -h ec2-176-34-186-178.eu-west-1.compute.amazonaws.com -d d9pd5gm3f0ih1i -U u3fcuh1c6opvpf -p 5432'
+alias pd_email='cd /home/mroses/payments/emails/past_due/past_due_test/'
+alias rep='cd /home/mroses43@ad.avant.com/avant-strategy/us_payments/reporting/'
+alias acq='cd /home/mroses43@ad.avant.com/avant_etl/lib/avant_etl/etl_pathways/acqueon/collection_dimensions/daily_collection_dimensions_us/'
+alias usa='cd /Users/mroses43/avant-strategy/us_payments'
+alias cl='clear'

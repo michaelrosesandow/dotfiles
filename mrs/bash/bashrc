@@ -1,0 +1,17 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific aliases and functions
+if [ -f "${HOME}/.bash_aliases" ]; then
+  source "${HOME}/.bash_aliases"
+fi
+
+PATH=$HOME/bin:$PATH
+
+# added by Anaconda3 2.4.1 installer
+export PATH="/home/mroses43@ad.avant.com/anaconda3/bin:$PATH"
+export looker="/home/mroses43@ad.avant.com/avant-strategy/us_payments/reporting/looker"

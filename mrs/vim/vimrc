@@ -1,0 +1,85 @@
+"===========================================
+"		~ MRS .vimrc ~
+"===========================================
+"
+"Author: Michael Rose-Sandow
+"Source: add link to github
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" Fuzzy file finder
+Plugin 'ctrlpvim/ctrlp.vim'
+
+" run sql from vim directly
+Plugin 'vim-scripts/dbext.vim'
+
+Plugin 'michalbachowski/vim-wombat256mod'
+
+Plugin 'mattn/emmet-vim'
+" file explorer
+Plugin 'scrooloose/nerdtree'
+" Surround stuff in quotes or parens easily
+Plugin 'tpope/vim-surround'
+" Git wrapper
+Plugin 'tpope/vim-fugitive'
+" Colorscheme
+Plugin 'altercation/vim-colors-solarized'
+" Repeat
+Plugin 'tpope/vim-repeat'
+" Commenting
+Plugin 'tpope/vim-commentary'
+" Vim and tmux play nice please
+Plugin 'christoomey/vim-tmux-navigator'
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+syntax enable
+set background=dark
+colorscheme solarized
+" Use the space key as our leader. Put this near the top of your vimrc
+
+let mapleader = "\<Space>"
+
+" 0 jumps to first text in line rather than begin of line
+nmap 0 ^
+
+" Green profile for dbext
+let g:dbext_default_profile_green='type=pgsql:host=ec2-54-204-26-156.compute-1.amazonaws.com:user=ub5gkfteh7rc6t:dbname=deubc3pju2ki49'
+let g:dbext_default_profile='green'
+" edit vimrc
+nmap <leader>vr :sp $MYVIMRC<cr>
+
+" source vimrc
+nmap <leader>so :source $MYVIMRC<cr>
+
+" Move up and down by visible lines if current line is wrapped
+nmap j gj
+nmap k gk
+
+" Quicker window movement
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+" easy escape
+imap jk <esc>
+imap kj <esc>
+" automatically rebalance windows on vim resize
+autocmd VimResized * :wincmd =
+" zoom a vim pane, <C-w>= to re-balance
+nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
+nnoremap <leader>= :wincmd =<cr>
+
+set number " line numbers
