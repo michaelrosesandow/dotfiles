@@ -32,7 +32,7 @@ alias dok='ssh mroses@dok'
 
 alias bow='ssh mroses43@bowie'
 # UK
-alias ukdb='psql -h ec2-176-34-186-178.eu-west-1.compute.amazonaws.com -d d9pd5gm3f0ih1i -U u3fcuh1c6opvpf -p 5432'
+alias ukdb='psql -h ec2-176-34-181-236.eu-west-1.compute.amazonaws.com -d d9pd5gm3f0ih1i -U u3fcuh1c6opvpf -p 5432'
 alias pd_email='cd /home/mroses/payments/emails/past_due/past_due_test/'
 alias rep='cd /home/mroses43@ad.avant.com/avant-strategy/us_payments/reporting/'
 alias acq='cd /home/mroses43@ad.avant.com/avant_etl/lib/avant_etl/etl_pathways/acqueon/collection_dimensions/daily_collection_dimensions_us/'
