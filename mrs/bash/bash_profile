@@ -1,10 +1,10 @@
 #! /bin/bash
-# To the extent possible under law, the author(s) have dedicated all 
-# copyright and related and neighboring rights to this software to the 
-# public domain worldwide. This software is distributed without any warranty. 
-# You should have received a copy of the CC0 Public Domain Dedication along 
-# with this software. 
-# If not, see <http://creativecommons.org/publicdomain/zero/1.0/>. 
+# To the extent possible under law, the author(s) have dedicated all
+# copyright and related and neighboring rights to this software to the
+# public domain worldwide. This software is distributed without any warranty.
+# You should have received a copy of the CC0 Public Domain Dedication along
+# with this software.
+# If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
 # base-files version 4.2-3
 
@@ -49,9 +49,6 @@ fi
 
 # aliases
 
-
-# added by Anaconda3 2.5.0 installer
-export PATH="/Users/mroses43/anaconda3/bin:$PATH"
 # .bash_profile
 
 # Get the aliases and functions
@@ -68,3 +65,8 @@ export PATH
 
 export PS1="\u@\h \W \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$ "
 export SUDO_PS1="\[$bakred\]\u@\h\[$txtrst\] \w\$ "
+PYTHONPATH="${PYTHONPATH}:/Users/mroses43/avant-strategy"
+export PYTHONPATH
+
+export GARDEN_API_KEY=M163R6PUQCJS2AD0B5S74RVHIVGRJ8I6VFKB28D92G83L1D1GO3G====
+eval "$(pyenv init -)"

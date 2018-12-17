@@ -1,4 +1,6 @@
-
+alias coolidge='psql -h ava-pg-follower-coolidge.int.avant.com -d deubc3pju2ki49 -U mroses43 -p 5432'
+alias adhoc='psql -h  us-adhoc01.int.avant.com -d deubc3pju2ki49 -U mroses43 -p 5432'
+alias brown='psql -h ec2-54-235-192-223.compute-1.amazonaws.com -d deubc3pju2ki49 -U u5gp0bacsp1di9 -p 5432' 
 alias grep='grep --color'                     # show differences in colour
 # Olive (normal adhoc)
 alias olive='psql -h ec2-54-235-67-120.compute-1.amazonaws.com -d deubc3pju2ki49 -U u1ad4iiufmth5d -p 5432' 
@@ -32,9 +34,20 @@ alias dok='ssh mroses@dok'
 
 alias bow='ssh mroses43@bowie'
 # UK
-alias ukdb='psql -h ec2-176-34-181-236.eu-west-1.compute.amazonaws.com -d d9pd5gm3f0ih1i -U u3fcuh1c6opvpf -p 5432'
+alias ukdb='psql -h uk-adhoc-follower.int.avant.com -d d9pd5gm3f0ih1i -U mroses43 -p 5432'
 alias pd_email='cd /home/mroses/payments/emails/past_due/past_due_test/'
 alias rep='cd /home/mroses43@ad.avant.com/avant-strategy/us_payments/reporting/'
 alias acq='cd /home/mroses43@ad.avant.com/avant_etl/lib/avant_etl/etl_pathways/acqueon/collection_dimensions/daily_collection_dimensions_us/'
 alias usa='cd /Users/mroses43/avant-strategy/us_payments'
 alias cl='clear'
+alias scheme="rlwrap -r -c -f /Users/mroses43/.scheme/mit_scheme_bindings.txt scheme"
+
+alias qmake="/usr/local/Cellar/qt5/5.8.0_1/bin/qmake"
+
+alias gpu="git symbolic-ref --short -q HEAD | xargs git push -u origin"
+alias gc="git commit -m"
+alias gco="git checkout"
+alias gb="git branch"
+alias ga="git add"
+alias v="nvim"
+alias del="rm -i"

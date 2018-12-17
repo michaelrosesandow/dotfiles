@@ -1,6 +1,7 @@
 "===========================================
 "		~ MRS .vimrc ~
 "===========================================
+syntax enable
 "
 "Author: Michael Rose-Sandow
 "Source: add link to github
@@ -40,13 +41,29 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-commentary'
 " Vim and tmux play nice please
 Plugin 'christoomey/vim-tmux-navigator'
+" Pep8 formatting stuff
+Plugin 'nvie/vim-flake8'
+" python autocomplete
+Plugin 'Valloric/YouCompleteMe'
+" code folding
+Plugin 'tmhedberg/SimpylFold'
+" speed up folding
+Plugin 'Konfekt/FastFold'
+" Indenting python
+Plugin 'vim-scripts/indentpython.vim'
+" syntax checking
+Plugin 'scrooloose/syntastic' 
+" zenburn terminal color scheme
+Plugin 'jnurmine/Zenburn'
+" Cool status bar
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-syntax enable
 set background=dark
 colorscheme solarized
+
 " Use the space key as our leader. Put this near the top of your vimrc
 
 let mapleader = "\<Space>"
@@ -54,9 +71,10 @@ let mapleader = "\<Space>"
 " 0 jumps to first text in line rather than begin of line
 nmap 0 ^
 
-" Green profile for dbext
-let g:dbext_default_profile_green='type=pgsql:host=ec2-54-204-26-156.compute-1.amazonaws.com:user=ub5gkfteh7rc6t:dbname=deubc3pju2ki49'
-let g:dbext_default_profile='green'
+" Adhoc profile for dbext
+let g:dbext_default_profile_adhoc='type=pgsql:host=us-adhoc01.int.avant.com:user=mroses43:dbname=deubc3pju2ki49'
+let g:dbext_default_profile='adhoc'
+
 " edit vimrc
 nmap <leader>vr :sp $MYVIMRC<cr>
 
@@ -83,3 +101,39 @@ nnoremap <leader>- :wincmd _<cr>:wincmd \|<cr>
 nnoremap <leader>= :wincmd =<cr>
 
 set number " line numbers
+
+" Run Flake8 check every time we write a Python file
+" autocmd BufWritePost *.py call Flake8()
+
+let g:SimplyFold_docstring_preview=1
+
+au BufNewFile,BufRead *.py
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix
+
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+ "python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
+
+let python_highlight_all=1
+syntax on
+set encoding=utf-8
+
+call togglebg#map("<F5>")
+let g:syntastic_python_pylint_post_args="--max-line-length=120"
+
+set clipboard=unnamed

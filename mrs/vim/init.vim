@@ -22,7 +22,7 @@ call dein#add('Shougo/dein.vim')
 call dein#add('airblade/vim-gitgutter')
 
 " needed for linting
-call dein#add('neomake/neomake')
+call dein#add('w0rp/ale')
 
 " formatting / editing
 call dein#add('sbdchd/neoformat')
@@ -45,12 +45,12 @@ call dein#add('lifepillar/pgsql.vim')
 " autcompletion
 call dein#add('Shougo/deoplete.nvim')
 call dein#add('zchee/deoplete-jedi', {'on_ft': 'python'})
-call dein#add('davidhalter/jedi-vim')
 call dein#add('Shougo/context_filetype.vim')
 
 " terminal
 call dein#add('Shougo/deol.nvim')
-
+call dein#add('zchee/deoplete-zsh')
+"
 " file finders and git stuff
 call dein#add('Shougo/denite.nvim')
 call dein#add('chemzqm/vim-easygit')
@@ -111,6 +111,8 @@ nmap <leader>so :source $MYVIMRC<cr>
 nmap j gj
 nmap k gk
 
+" Terminal
+nmap <leader>t :DeolEdit
 " Quicker window movement
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
@@ -129,8 +131,8 @@ nnoremap <leader>= :wincmd =<cr>
 let g:SimplyFold_docstring_preview=1
 "
 " Python settings
-let g:neomake_python_enabled_makers = ['flake8']
-
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_insert_leave = 1
 " Python jump to functions and classes
 " next function
 nmap nf ]pf
@@ -151,12 +153,11 @@ au BufNewFile,BufRead *.py
     \ set smartindent |
     \ set fileformat=unix
 
-" run linter on write
-autocmd! BufWritePost * Neomake
-"
 " launch repl
 noremap <leader>r :IronRepl<CR>
 " deactivate default mappings
+
+tmap <esc> <c-\><c-n><esc><cr>
 let g:iron_map_defaults=0
 augroup ironmapping
     autocmd!
@@ -175,7 +176,6 @@ nnoremap <Leader>b :bp<CR>
 let g:jedi#completions_enabled=0
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_refresh_always = 0
-let g:deoplete#enable_camel_case = 1
 let g:deoplete#max_abbr_width = 35
 let g:deoplete#max_menu_width = 20
 let g:deoplete#skip_chars = ['(', ')', '<', '>']
@@ -186,6 +186,10 @@ let g:deoplete#sources#jedi#statement_length = 1
 let g:deoplete#sources#jedi#show_docstring = 1
 let g:deoplete#sources#jedi#short_types = 1
 let g:jedi#completions_enabled = 0
+let g:jedi#rename_command = "<leader>e"
+let g:deoplete#enable_ignore_case = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#auto_completion_start_length = 2
 "
 " When pressing <leader>cd switch to the directory of the open buffer
 map <Leader>cd :lcd %:p:h<CR>:pwd<CR>
@@ -201,6 +205,8 @@ if dein#tap('denite.nvim')
 	nnoremap <silent><LocalLeader>q :<C-u>Denite quickfix -buffer-name=list<CR>
 	nnoremap <silent><LocalLeader>g :<C-u>Denite grep<CR>
 	nnoremap <silent><LocalLeader>z :<C-u>Denite z<CR>
+	nnoremap <silent><LocalLeader>v :<C-u>Denite file_rec -default-action=vsplit<CR>
+	nnoremap <silent><LocalLeader>h :<C-u>Denite file_rec -default-action=split<CR>
 
 	" chemzqm/denite-git
 	nnoremap <silent> <Leader>gl :<C-u>Denite gitlog<CR>
@@ -226,23 +232,17 @@ let normal_mode_mappings = [
 	\   ['vs', '<denite:do_action:vsplit>', 'noremap'],
 	\   ['ss', '<denite:do_action:split>', 'noremap'],
 	\   ['sc', '<denite:quit>', 'noremap'],
-	\   ['r', '<denite:redraw>', 'noremap'],
+	\   ['a', '<denite:do_action:add>', 'noremap'],
+	\   ['d', '<denite:do_action:delete>', 'noremap'], 
+	\   ['r', '<denite:do_action:reset>', 'noremap'],
 	\ ]
-
+" NOTE: delete is actually diff
 for m in insert_mode_mappings
 	call denite#custom#map('insert', m[0], m[1], m[2])
 endfor
 for m in normal_mode_mappings
 	call denite#custom#map('normal', m[0], m[1], m[2])
 endfor
-if dein#tap('nerdtree')
-	let g:NERDTreeMapOpenSplit = 'hs'
-	let g:NERDTreeMapOpenVSplit = 'vs'
-	let g:NERDTreeMapOpenInTab = 'st'
-
-	nnoremap <silent> <LocalLeader>e :<C-u>NERDTreeToggle<CR>
-	nnoremap <silent> <LocalLeader>a :<C-u>NERDTreeFind<CR>
-endif
 
 if dein#tap('vim-gitgutter')
 	nmap <Leader>hj <Plug>GitGutterNextHunk
@@ -250,16 +250,6 @@ if dein#tap('vim-gitgutter')
 	nmap <Leader>hs <Plug>GitGutterStageHunk
 	nmap <Leader>hr <Plug>GitGutterUndoHunk
 	nmap <Leader>hp <Plug>GitGutterPreviewHunk
-endif
-
-if dein#tap('vim-easygit')
-	nnoremap <silent> <leader>gd :Gdiff<CR>
-	nnoremap <silent> <leader>gD :Gdiffoff<CR>
-	nnoremap <silent> <leader>gc :Gcommit<CR>
-	nnoremap <silent> <leader>gb :Gblame<CR>
-	nnoremap <silent> <leader>gB :Gbrowse<CR>
-	nnoremap <silent> <leader>gS :Gstatus<CR>
-	nnoremap <silent> <leader>gp :Git push<CR>
 endif
 
 if dein#tap('vim-commentary')
