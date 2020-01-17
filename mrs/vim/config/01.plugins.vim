@@ -27,8 +27,6 @@ if dein#load_state('~/.cache/dein')
     call dein#add('Konfekt/FastFold')
     call dein#add('w0rp/ale')
     call dein#add('Shougo/neoinclude.vim')
-    call dein#add('cloudhead/neovim-fuzzy')
-    call dein#add('junegunn/fzf')
     call dein#add('alaric/neovim-visor')
     call dein#add('christoomey/vim-tmux-navigator')
     call dein#add('autozimu/LanguageClient-neovim', {
@@ -39,7 +37,6 @@ if dein#load_state('~/.cache/dein')
     call dein#add('tpope/vim-commentary')
     call dein#add('Vigemus/iron.nvim') " ipython repl
     call dein#add('mhinz/vim-sayonara')
-    call dein#add('vim-scripts/dbext.vim')
     call dein#add('vimwiki/vimwiki')
 
     call dein#end()"

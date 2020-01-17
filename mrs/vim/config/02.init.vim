@@ -1,7 +1,6 @@
 " misc startup settings for vim
 "
 "
-"
 " python packages
 let g:python_host_prog = '/Users/mroses43/.pyenv/versions/neovim2/bin/python'
 let g:python3_host_prog = '/Users/mroses43/.pyenv/versions/py3/bin/python'
@@ -52,6 +51,13 @@ colorscheme NeoSolarized
 
 let g:ale_completion_enabled = 0
 let g:ale_linters_explicit = 1
+let g:ale_linters = {'python': ['pyflakes', 'pylint', 'pyls', 'flake8'],
+            \ 'sql': ['sqlint']}
+
+let g:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace'],
+            \ 'python': ['autopep8']}
+
+let g:ale_lint_on_save = 1
 
 " terminal settings
 autocmd BufWinEnter,WinEnter term://* startinsert
