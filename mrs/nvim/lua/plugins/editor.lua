@@ -43,6 +43,7 @@ return {
 			{ "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
 			{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help tags" },
 			{ "<leader>fn", "<cmd>Telescope find_files cwd=~/notes<cr>", desc = "Find notes" },
+			{ "<leader>cs", "<cmd>Telescope colorscheme enable_preview=true<cr>", desc = "Browse colorschemes (live preview)" },
 		},
 		opts = {},
 	},
