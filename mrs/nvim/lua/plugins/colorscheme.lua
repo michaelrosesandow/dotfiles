@@ -1,14 +1,15 @@
--- Solarized, dark — the look you've always run (old config used NeoSolarized).
--- maxmx03/solarized.nvim is the actively maintained, treesitter-aware modern port.
+-- Active colorscheme: tokyonight (moon variant).
 return {
 	{
-		"maxmx03/solarized.nvim",
+		"folke/tokyonight.nvim",
 		lazy = false,
-		priority = 1000, -- load before everything else so UI starts themed
-		opts = {},
+		priority = 1000, -- load before everything else so the UI starts themed
+		opts = {
+			style = "moon",
+		},
 		config = function(_, opts)
-			require("solarized").setup(opts)
-			vim.cmd.colorscheme("solarized")
+			require("tokyonight").setup(opts)
+			vim.cmd.colorscheme("tokyonight-moon")
 		end,
 	},
 }
