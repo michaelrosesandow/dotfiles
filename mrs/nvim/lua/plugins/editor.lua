@@ -34,7 +34,9 @@ return {
 	-- Fuzzy finder (replaces ctrlp / fzy). Uses ripgrep for live grep.
 	{
 		"nvim-telescope/telescope.nvim",
-		branch = "0.1.x",
+		-- Track the default branch (not the frozen 0.1.x release): the current
+		-- previewer uses Neovim's built-in treesitter API, which is required
+		-- now that nvim-treesitter is on its `main` branch.
 		dependencies = { "nvim-lua/plenary.nvim" },
 		cmd = "Telescope",
 		keys = {
