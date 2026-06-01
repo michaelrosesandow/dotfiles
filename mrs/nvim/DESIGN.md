@@ -73,10 +73,17 @@ Lightweight: a `~/notes` directory + telescope keymaps to find/grep notes, made 
 by render-markdown. Not reviving vimwiki. `obsidian.nvim` can slot in later if backlinks
 are ever wanted (YAGNI for now).
 
-## Dependencies
+## Dependencies (Homebrew)
 
-- `neovim`, `ripgrep` (Homebrew)
-- A Nerd Font for statusline/markdown icons
+- `neovim` (0.12+), `ripgrep`
+- `tree-sitter-cli` — nvim-treesitter's `main` branch compiles parsers with it
+- `node` — markdown-preview.nvim builds its browser server locally with yarn
+- A Nerd Font (installed: `font-jetbrains-mono-nerd-font`) for statusline/markdown icons.
+  Set your terminal's font to "JetBrainsMono Nerd Font" for glyphs to show.
+
+Note: nvim-treesitter is pinned to the `main` branch (the `master` branch is broken on
+Neovim 0.12). Neovim already bundles the `markdown`/`markdown_inline` parsers, so markdown
+renders without any parser install; code-language parsers compile on first launch.
 
 ## Out of scope
 
