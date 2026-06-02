@@ -32,25 +32,45 @@ local function ensure_today(path)
 	vim.fn.writefile(lines, path)
 end
 
--- Given a flat list of lines, return a new list with `entry` inserted after the
--- first "## Scratch Pad" heading, or with a fresh Scratch Pad section appended
--- if no such heading exists.
+-- Given a flat list of lines, return a new list with `entry` inserted at the END
+-- of the "## Scratch Pad" section -- after the hint blockquote and any existing
+-- captures, before trailing blank lines / the next "## " heading / EOF -- so
+-- captures accumulate at the bottom of the section. If no Scratch Pad heading
+-- exists, append a fresh section. Operates on a 1-indexed list; shared by both
+-- the live-buffer and on-disk capture paths.
 local function insert_entry(lines, entry)
-	local insert_at = nil
+	-- Locate the Scratch Pad heading.
+	local h = nil
 	for i, l in ipairs(lines) do
 		if l:match("^##%s+Scratch Pad") then
-			insert_at = i
+			h = i
 			break
 		end
 	end
 
-	if insert_at then
-		table.insert(lines, insert_at + 1, entry)
-	else
+	if not h then
 		table.insert(lines, "")
 		table.insert(lines, "## Scratch Pad")
 		table.insert(lines, entry)
+		return lines
 	end
+
+	-- Section end: first heading after `h`, else just past the last line.
+	local e = #lines + 1
+	for i = h + 1, #lines do
+		if lines[i]:match("^##%s") then
+			e = i
+			break
+		end
+	end
+
+	-- Trim back over trailing blank lines so the entry lands as the last
+	-- content line of the section, not below its trailing whitespace.
+	while e - 1 > h and lines[e - 1]:match("^%s*$") do
+		e = e - 1
+	end
+
+	table.insert(lines, e, entry)
 	return lines
 end
 

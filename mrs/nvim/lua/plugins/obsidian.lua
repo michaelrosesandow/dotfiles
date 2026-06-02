@@ -49,10 +49,12 @@ return {
 				time_format = "%H:%M",
 			},
 
-			-- Built-in in-process-LSP completion for [[ and #. No nvim-cmp/blink.
+			-- [[ and # completion via blink.cmp. obsidian.nvim's in-process LSP
+			-- does NOT do completion, so blink is required for the dropdown; it
+			-- auto-injects its markdown sources when completion.blink = true.
 			completion = {
 				nvim_cmp = false,
-				blink = false,
+				blink = true,
 				min_chars = 2,
 			},
 
