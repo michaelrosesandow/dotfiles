@@ -10,6 +10,15 @@ return {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
 		},
+		keys = {
+			{ "<leader>ot", "<cmd>Obsidian today<cr>", desc = "Today's daily note" },
+			{ "<leader>oy", "<cmd>Obsidian today -1<cr>", desc = "Yesterday's daily note" },
+			{ "<leader>on", "<cmd>Obsidian new<cr>", desc = "New note" },
+			{ "<leader>os", "<cmd>Obsidian quick_switch<cr>", desc = "Switch / jump to note" },
+			{ "<leader>og", "<cmd>Obsidian search<cr>", desc = "Search vault contents" },
+			{ "<leader>ob", "<cmd>Obsidian backlinks<cr>", desc = "Backlinks to this note" },
+			{ "<leader>of", "<cmd>Obsidian follow_link<cr>", desc = "Follow [[link]] under cursor" },
+		},
 		opts = {
 			workspaces = {
 				{ name = "mrs", path = "~/claude-code-time/mrs" },
