@@ -74,35 +74,45 @@ local function insert_entry(lines, entry)
 	return lines
 end
 
+-- Core capture: append `text` as a bullet under today's Scratch Pad. Shared by
+-- the in-editor keymap (M.capture) and the terminal `oc` shell function, which
+-- calls this directly via `nvim --headless`. Returns true on success. No-op on
+-- empty input.
+function M.append(text)
+	if not text or text == "" then
+		return false
+	end
+	local path = today_path()
+	ensure_today(path)
+
+	local entry = "- " .. text
+
+	-- Buffer names are absolute paths; today_path() is already absolute.
+	local bufnr = vim.fn.bufnr(path)
+	if bufnr ~= -1 and vim.api.nvim_buf_is_loaded(bufnr) then
+		-- Today's note is open: edit the LIVE buffer so we never clobber
+		-- unsaved edits, then persist without stealing focus.
+		local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+		lines = insert_entry(lines, entry)
+		vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
+		vim.api.nvim_buf_call(bufnr, function()
+			vim.cmd("silent write")
+		end)
+	else
+		-- Note not open: safe to read/mutate/write the file on disk.
+		local lines = vim.fn.readfile(path)
+		lines = insert_entry(lines, entry)
+		vim.fn.writefile(lines, path)
+	end
+
+	vim.notify("Captured to " .. os.date("%Y-%m-%d %A"), vim.log.levels.INFO)
+	return true
+end
+
+-- In-editor entry point: prompt, then append. Bound to <leader>oc.
 function M.capture()
 	vim.ui.input({ prompt = "Capture: " }, function(input)
-		if not input or input == "" then
-			return
-		end
-		local path = today_path()
-		ensure_today(path)
-
-		local entry = "- " .. input
-
-		-- Buffer names are absolute paths; today_path() is already absolute.
-		local bufnr = vim.fn.bufnr(path)
-		if bufnr ~= -1 and vim.api.nvim_buf_is_loaded(bufnr) then
-			-- Today's note is open: edit the LIVE buffer so we never clobber
-			-- unsaved edits, then persist without stealing focus.
-			local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-			lines = insert_entry(lines, entry)
-			vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
-			vim.api.nvim_buf_call(bufnr, function()
-				vim.cmd("silent write")
-			end)
-		else
-			-- Note not open: safe to read/mutate/write the file on disk.
-			local lines = vim.fn.readfile(path)
-			lines = insert_entry(lines, entry)
-			vim.fn.writefile(lines, path)
-		end
-
-		vim.notify("Captured to " .. os.date("%Y-%m-%d %A"), vim.log.levels.INFO)
+		M.append(input)
 	end)
 end
 
