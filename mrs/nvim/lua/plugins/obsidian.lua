@@ -18,6 +18,13 @@ return {
 			{ "<leader>og", "<cmd>Obsidian search<cr>", desc = "Search vault contents" },
 			{ "<leader>ob", "<cmd>Obsidian backlinks<cr>", desc = "Backlinks to this note" },
 			{ "<leader>of", "<cmd>Obsidian follow_link<cr>", desc = "Follow [[link]] under cursor" },
+			{
+				"<leader>oc",
+				function()
+					require("config.obsidian_capture").capture()
+				end,
+				desc = "Quick capture to today",
+			},
 		},
 		opts = {
 			workspaces = {
