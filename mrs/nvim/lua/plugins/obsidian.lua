@@ -75,6 +75,11 @@ return {
 			-- v3.x replaced `preferred_link_style`/`wiki_link_func` with `link`;
 			-- "wiki" style already produces [[Note Name]], so no custom formatter.
 			link = { style = "wiki" },
+
+			-- Use the modern `:Obsidian <subcommand>` form (our keymaps already do);
+			-- opting out of the legacy `:ObsidianFoo` commands silences the last
+			-- startup deprecation warning.
+			legacy_commands = false,
 		},
 		config = function(_, opts)
 			require("obsidian").setup(opts)
