@@ -72,14 +72,9 @@ return {
 			end,
 
 			-- Emit plain [[Note Name]] wikilinks, matching the app + automation.
-			preferred_link_style = "wiki",
-			wiki_link_func = function(opts)
-				return string.format("[[%s]]", opts.label or opts.id)
-			end,
-
-			-- We add our own keymaps in a separate file; disable plugin defaults
-			-- so nothing is bound that we didn't ask for.
-			mappings = {},
+			-- v3.x replaced `preferred_link_style`/`wiki_link_func` with `link`;
+			-- "wiki" style already produces [[Note Name]], so no custom formatter.
+			link = { style = "wiki" },
 		},
 		config = function(_, opts)
 			require("obsidian").setup(opts)
