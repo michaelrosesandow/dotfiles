@@ -32,17 +32,16 @@ local function ensure_today(path)
 	vim.fn.writefile(lines, path)
 end
 
--- Given a flat list of lines, return a new list with `entry` inserted at the END
--- of the "## Scratch Pad" section -- after the hint blockquote and any existing
--- captures, before trailing blank lines / the next "## " heading / EOF -- so
--- captures accumulate at the bottom of the section. If no Scratch Pad heading
--- exists, append a fresh section. Operates on a 1-indexed list; shared by both
--- the live-buffer and on-disk capture paths.
-local function insert_entry(lines, entry)
-	-- Locate the Scratch Pad heading.
+-- Insert `entry` at the END of the named section ("## <label>") -- after the
+-- hint/existing items, before trailing blank lines / the next "## " heading / EOF
+-- -- so items accumulate at the bottom. Creates the section if absent. Operates
+-- on a 1-indexed list; shared by the live-buffer and on-disk capture paths and by
+-- both target sections (Inbox, Scratch Pad).
+local function insert_into_section(lines, label, entry)
+	local heading = "^##%s+" .. label
 	local h = nil
 	for i, l in ipairs(lines) do
-		if l:match("^##%s+Scratch Pad") then
+		if l:match(heading) then
 			h = i
 			break
 		end
@@ -50,12 +49,11 @@ local function insert_entry(lines, entry)
 
 	if not h then
 		table.insert(lines, "")
-		table.insert(lines, "## Scratch Pad")
+		table.insert(lines, "## " .. label)
 		table.insert(lines, entry)
 		return lines
 	end
 
-	-- Section end: first heading after `h`, else just past the last line.
 	local e = #lines + 1
 	for i = h + 1, #lines do
 		if lines[i]:match("^##%s") then
@@ -64,14 +62,28 @@ local function insert_entry(lines, entry)
 		end
 	end
 
-	-- Trim back over trailing blank lines so the entry lands as the last
-	-- content line of the section, not below its trailing whitespace.
 	while e - 1 > h and lines[e - 1]:match("^%s*$") do
 		e = e - 1
 	end
 
 	table.insert(lines, e, entry)
 	return lines
+end
+
+-- If `text` starts with a `todo`/`task` keyword (case-insensitive, optional
+-- colon) followed by non-empty content, return the trimmed remainder (the task
+-- title). Otherwise return nil (it's a plain note). A bare keyword with nothing
+-- after it returns nil -- no empty tasks.
+local function parse_task(text)
+	local body = text:match("^%s*[Tt][Oo][Dd][Oo]%s*:?%s+(.+)")
+		or text:match("^%s*[Tt][Aa][Ss][Kk]%s*:?%s+(.+)")
+	if body then
+		body = body:gsub("^%s+", ""):gsub("%s+$", "")
+		if body ~= "" then
+			return body
+		end
+	end
+	return nil
 end
 
 -- Core capture: append `text` as a bullet under today's Scratch Pad. Shared by
@@ -82,10 +94,17 @@ function M.append(text)
 	if not text or text == "" then
 		return false
 	end
+
+	local title = parse_task(text)
+	local label, entry
+	if title then
+		label, entry = "Inbox", "- [ ] " .. title
+	else
+		label, entry = "Scratch Pad", "- " .. text
+	end
+
 	local path = today_path()
 	ensure_today(path)
-
-	local entry = "- " .. text
 
 	-- Buffer names are absolute paths; today_path() is already absolute.
 	local bufnr = vim.fn.bufnr(path)
@@ -93,7 +112,7 @@ function M.append(text)
 		-- Today's note is open: edit the LIVE buffer so we never clobber
 		-- unsaved edits, then persist without stealing focus.
 		local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-		lines = insert_entry(lines, entry)
+		lines = insert_into_section(lines, label, entry)
 		vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
 		vim.api.nvim_buf_call(bufnr, function()
 			vim.cmd("silent write")
@@ -101,11 +120,15 @@ function M.append(text)
 	else
 		-- Note not open: safe to read/mutate/write the file on disk.
 		local lines = vim.fn.readfile(path)
-		lines = insert_entry(lines, entry)
+		lines = insert_into_section(lines, label, entry)
 		vim.fn.writefile(lines, path)
 	end
 
-	vim.notify("Captured to " .. os.date("%Y-%m-%d %A"), vim.log.levels.INFO)
+	if title then
+		vim.notify("Task → Inbox: " .. title, vim.log.levels.INFO)
+	else
+		vim.notify("Captured to Scratch Pad", vim.log.levels.INFO)
+	end
 	return true
 end
 
@@ -115,5 +138,9 @@ function M.capture()
 		M.append(input)
 	end)
 end
+
+-- Exposed for headless tests (pure, no side effects).
+M._parse_task = parse_task
+M._insert_into_section = insert_into_section
 
 return M
