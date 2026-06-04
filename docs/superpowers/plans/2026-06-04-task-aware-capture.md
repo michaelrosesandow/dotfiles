@@ -338,8 +338,9 @@ local lines = {'## Inbox', '<!-- hint -->', '', '## Scratch Pad', '> hint'}
 route(lines, 'todo talk to John about compliance')
 route(lines, 'cool article to read')
 local joined = table.concat(lines, '\n')
-assert(joined:find('## Inbox\n<!-- hint -->\n%- %[ %] talk to John about compliance'), 'task under Inbox\n'..joined)
-assert(joined:find('## Scratch Pad\n> hint\n%- cool article to read'), 'note under Scratch Pad\n'..joined)
+-- Literal matching (find with plain=true): the content has '-'/'[' chars that are magic in Lua patterns.
+assert(joined:find('## Inbox\n<!-- hint -->\n- [ ] talk to John about compliance', 1, true), 'task under Inbox\n'..joined)
+assert(joined:find('## Scratch Pad\n> hint\n- cool article to read', 1, true), 'note under Scratch Pad\n'..joined)
 print('e2e routing OK')
 " -c "qa" 2>&1
 ```

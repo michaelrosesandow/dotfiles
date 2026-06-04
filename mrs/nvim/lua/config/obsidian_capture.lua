@@ -38,7 +38,10 @@ end
 -- on a 1-indexed list; shared by the live-buffer and on-disk capture paths and by
 -- both target sections (Inbox, Scratch Pad).
 local function insert_into_section(lines, label, entry)
-	local heading = "^##%s+" .. label
+	-- `label` is interpolated into a Lua pattern: escape it (so a label with magic
+	-- chars stays literal) and anchor the end (so "## Inbox" can't prefix-match a
+	-- heading like "## Inbox Archive").
+	local heading = "^##%s+" .. vim.pesc(label) .. "%s*$"
 	local h = nil
 	for i, l in ipairs(lines) do
 		if l:match(heading) then
