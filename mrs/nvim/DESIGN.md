@@ -69,9 +69,8 @@ dbext, vimwiki, Vundle.
 
 ## Notes workflow
 
-Lightweight: a `~/notes` directory + telescope keymaps to find/grep notes, made pleasant
-by render-markdown. Not reviving vimwiki. `obsidian.nvim` can slot in later if backlinks
-are ever wanted (YAGNI for now).
+Lightweight: telescope find/grep, made pleasant by render-markdown. Not reviving vimwiki.
+(An obsidian.nvim + blink.cmp vault integration was tried and removed.)
 
 ## Dependencies (Homebrew)
 

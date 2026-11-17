@@ -20,10 +20,6 @@ return {
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
-		opts = {
-			spec = {
-				{ "<leader>o", group = "obsidian" },
-			},
-		},
+		opts = {},
 	},
 }

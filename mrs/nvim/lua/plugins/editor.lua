@@ -44,7 +44,6 @@ return {
 			{ "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live grep" },
 			{ "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
 			{ "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help tags" },
-			{ "<leader>fn", "<cmd>Telescope find_files cwd=~/claude-code-time/mrs<cr>", desc = "Find notes (vault)" },
 			{ "<leader>cs", "<cmd>Telescope colorscheme enable_preview=true<cr>", desc = "Browse colorschemes (live preview)" },
 		},
 		opts = {},
